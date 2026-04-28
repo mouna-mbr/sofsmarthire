@@ -1,0 +1,638 @@
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#22527D;--dark:#030E10;--orange:#F3701C;--nl:rgba(34,82,125,0.18);--ol:rgba(243,112,28,0.14)}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#030E10;color:#e8eef3;overflow-x:hidden}
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+nav{background:rgba(3,14,16,0.96);border-bottom:1px solid rgba(34,82,125,0.28);padding:0 1.5rem;position:sticky;top:0;z-index:200}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;gap:1rem;flex-wrap:wrap}
+.nav-logo{font-weight:800;font-size:1.1rem;color:#fff;letter-spacing:-0.02em;white-space:nowrap}
+.nav-logo b{color:#F3701C}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap}
+.nav-btn{background:none;border:none;color:rgba(232,238,243,0.6);font-size:0.78rem;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all 0.2s;white-space:nowrap;font-family:inherit}
+.nav-btn:hover,.nav-btn.active{background:rgba(34,82,125,0.25);color:#F3701C}
+.hamburger{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:6px;background:none;border:none}
+.hamburger span{width:22px;height:2px;background:#e8eef3;border-radius:2px;transition:all 0.3s}
+.mobile-menu{display:none;background:rgba(3,14,16,0.98);border-bottom:1px solid rgba(34,82,125,0.2);padding:1rem 1.5rem;flex-direction:column;gap:4px}
+.mobile-menu.open{display:flex}
+.mobile-btn{background:none;border:none;color:rgba(232,238,243,0.7);font-size:0.9rem;padding:10px 0;cursor:pointer;text-align:left;border-bottom:1px solid rgba(34,82,125,0.1);font-family:inherit;transition:color 0.2s}
+.mobile-btn:hover{color:#F3701C}
+
+.hero{padding:5rem 1.5rem 4rem;text-align:center;position:relative;overflow:hidden}
+.hero-glow{position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(34,82,125,0.2) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(243,112,28,0.4);padding:5px 16px;border-radius:100px;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:#F3701C;margin-bottom:1.5rem;background:rgba(243,112,28,0.07)}
+.dot{width:6px;height:6px;border-radius:50%;background:#F3701C;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+.hero h1{font-size:clamp(2rem,7vw,4.5rem);font-weight:800;line-height:1.08;color:#fff;margin-bottom:1.2rem}
+.hero h1 em{font-style:normal;color:#F3701C}
+.hero p{font-size:1rem;color:rgba(232,238,243,0.55);line-height:1.8;max-width:560px;margin:0 auto 2.5rem}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-p{background:#F3701C;color:#fff;padding:12px 28px;border-radius:8px;border:none;font-size:0.9rem;font-weight:500;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.btn-p:hover{background:#d95c0a;transform:translateY(-2px)}
+.btn-o{background:transparent;color:#e8eef3;padding:12px 28px;border-radius:8px;border:1px solid rgba(34,82,125,0.5);font-size:0.9rem;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.btn-o:hover{border-color:#22527D;background:rgba(34,82,125,0.12)}
+
+.stats{display:flex;flex-wrap:wrap;border-top:1px solid rgba(34,82,125,0.2);border-bottom:1px solid rgba(34,82,125,0.2);background:rgba(34,82,125,0.07)}
+.stat{flex:1;min-width:130px;padding:1.5rem 1rem;text-align:center;border-right:1px solid rgba(34,82,125,0.15)}
+.stat:last-child{border-right:none}
+.stat-n{font-size:1.8rem;font-weight:800;color:#F3701C}
+.stat-l{font-size:0.72rem;color:rgba(232,238,243,0.45);margin-top:2px;letter-spacing:0.04em}
+
+section{max-width:1200px;margin:0 auto;padding:4rem 1.5rem}
+.sec-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.14em;color:#F3701C;margin-bottom:0.8rem;font-weight:500}
+.sec-h{font-size:clamp(1.6rem,4vw,2.5rem);font-weight:800;color:#fff;line-height:1.2;margin-bottom:0.8rem}
+.sec-h span{color:#2d6a9f}
+.sec-p{color:rgba(232,238,243,0.5);font-size:0.92rem;line-height:1.8;max-width:580px;margin-bottom:2.5rem}
+
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem}
+
+.card{background:rgba(34,82,125,0.07);border:1px solid rgba(34,82,125,0.2);border-radius:14px;padding:1.6rem;transition:all 0.35s;cursor:pointer;position:relative;overflow:hidden}
+.card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#22527D,#F3701C);transform:scaleX(0);transform-origin:left;transition:transform 0.35s}
+.card:hover{border-color:rgba(34,82,125,0.45);transform:translateY(-4px)}
+.card:hover::after{transform:scaleX(1)}
+.card-icon{width:44px;height:44px;border-radius:10px;background:rgba(34,82,125,0.2);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1rem}
+.card-icon.org{background:rgba(243,112,28,0.15)}
+.card-t{font-weight:700;font-size:1rem;color:#fff;margin-bottom:0.5rem}
+.card-d{font-size:0.85rem;color:rgba(232,238,243,0.5);line-height:1.65;margin-bottom:1rem}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1rem}
+.tag{font-size:0.68rem;padding:3px 9px;border-radius:100px;background:rgba(34,82,125,0.18);border:1px solid rgba(34,82,125,0.28);color:rgba(232,238,243,0.55)}
+.expand-btn{font-size:0.75rem;color:#F3701C;background:none;border:none;cursor:pointer;padding:0;font-family:inherit;display:flex;align-items:center;gap:4px;transition:gap 0.2s}
+.expand-btn:hover{gap:8px}
+.expand-content{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+.expand-content.open{max-height:400px}
+.detail-list{list-style:none;margin-top:1rem;border-top:1px solid rgba(34,82,125,0.15);padding-top:1rem}
+.detail-list li{font-size:0.82rem;color:rgba(232,238,243,0.5);padding:5px 0;border-bottom:1px solid rgba(34,82,125,0.08);display:flex;align-items:center;gap:8px}
+.detail-list li:last-child{border-bottom:none}
+.detail-list li::before{content:'';width:5px;height:5px;border-radius:50%;background:#F3701C;flex-shrink:0;opacity:0.7}
+
+.flux-timeline{display:flex;flex-direction:column;gap:0}
+.flux-item{display:flex;gap:1.5rem;padding:1.8rem 0;border-bottom:1px solid rgba(34,82,125,0.12);transition:all 0.3s;cursor:pointer}
+.flux-item:hover{padding-left:0.8rem}
+.flux-item:last-child{border-bottom:none}
+.flux-num{font-size:2.8rem;font-weight:800;color:rgba(34,82,125,0.22);line-height:1;min-width:64px;text-align:right;transition:color 0.3s;flex-shrink:0}
+.flux-item:hover .flux-num{color:rgba(243,112,28,0.4)}
+.flux-body{flex:1;padding-top:4px}
+.flux-badge{font-size:0.68rem;padding:2px 9px;border-radius:100px;background:rgba(243,112,28,0.1);border:1px solid rgba(243,112,28,0.28);color:#F3701C;display:inline-block;margin-bottom:6px}
+.flux-t{font-weight:700;font-size:1rem;color:#fff;margin-bottom:0.3rem}
+.flux-d{font-size:0.85rem;color:rgba(232,238,243,0.48);line-height:1.65}
+.flux-detail{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+.flux-detail.open{max-height:300px}
+.flux-detail-inner{margin-top:0.8rem;padding:0.8rem;background:rgba(34,82,125,0.08);border-radius:8px;border-left:2px solid #22527D;border-radius:0 8px 8px 0}
+.flux-detail-inner p{font-size:0.82rem;color:rgba(232,238,243,0.5);line-height:1.7}
+
+.sec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+.sec-card{background:rgba(34,82,125,0.06);border:1px solid rgba(34,82,125,0.18);border-radius:12px;padding:1.4rem;transition:border-color 0.3s}
+.sec-card:hover{border-color:rgba(243,112,28,0.3)}
+.sec-icon{font-size:1.6rem;margin-bottom:0.7rem}
+.sec-t{font-weight:700;font-size:0.9rem;color:#fff;margin-bottom:0.3rem}
+.sec-d{font-size:0.8rem;color:rgba(232,238,243,0.43);line-height:1.6}
+
+.stack-row{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-top:2rem}
+.stack-card{text-align:center;padding:1.2rem 1.8rem;background:rgba(34,82,125,0.1);border:1px solid rgba(34,82,125,0.22);border-radius:10px;min-width:120px;transition:all 0.2s}
+.stack-card:hover{border-color:rgba(243,112,28,0.35);background:rgba(243,112,28,0.06)}
+.stack-name{font-weight:800;font-size:1.1rem;margin-bottom:3px}
+.stack-role{font-size:0.7rem;color:rgba(232,238,243,0.4);letter-spacing:0.04em}
+.mysql{color:#F3701C}
+
+.future-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.f-card{border:1px solid rgba(243,112,28,0.15);border-radius:12px;padding:1.4rem;background:rgba(243,112,28,0.04);transition:all 0.25s}
+.f-card:hover{background:rgba(243,112,28,0.09);border-color:rgba(243,112,28,0.35);transform:translateY(-3px)}
+.f-lbl{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.1em;color:#F3701C;margin-bottom:0.4rem}
+.f-t{font-weight:700;font-size:0.95rem;color:#fff;margin-bottom:0.4rem}
+.f-d{font-size:0.8rem;color:rgba(232,238,243,0.43);line-height:1.6}
+
+.cta-box{background:rgba(34,82,125,0.1);border:1px solid rgba(34,82,125,0.22);border-radius:20px;padding:4rem 2rem;text-align:center;margin:2rem 1.5rem 0}
+.cta-box h2{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;color:#fff;margin-bottom:1rem}
+.cta-box p{color:rgba(232,238,243,0.5);max-width:460px;margin:0 auto 2rem;font-size:0.92rem}
+
+footer{border-top:1px solid rgba(34,82,125,0.18);padding:1.5rem;text-align:center;font-size:0.78rem;color:rgba(232,238,243,0.28);margin-top:2rem}
+footer b{color:#F3701C}
+
+.divider{border:none;border-top:1px solid rgba(34,82,125,0.12);margin:0 1.5rem}
+
+.anim{opacity:0;transform:translateY(24px);transition:opacity 0.65s ease,transform 0.65s ease}
+.anim.in{opacity:1;transform:none}
+
+@media(max-width:700px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .stats .stat{min-width:calc(50% - 1px)}
+  .hero{padding:4rem 1rem 3rem}
+  .hero h1{font-size:2rem}
+  section{padding:3rem 1rem}
+}
+@media(min-width:701px){.hamburger{display:none}.mobile-menu{display:none!important}}
+</style>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Sof <b>Smart Hire</b></div>
+    <div class="nav-links" id="navlinks">
+      <button class="nav-btn active" onclick="goto('hero')">Accueil</button>
+      <button class="nav-btn" onclick="goto('roles')">Rôles</button>
+      <button class="nav-btn" onclick="goto('modules')">Modules</button>
+      <button class="nav-btn" onclick="goto('flux')">Flux</button>
+      <button class="nav-btn" onclick="goto('securite')">Sécurité</button>
+      <button class="nav-btn" onclick="goto('stack')">Stack</button>
+      <button class="nav-btn" onclick="goto('futur')">Évolutions</button>
+    </div>
+    <button class="hamburger" id="hbg" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mmenu">
+  <button class="mobile-btn" onclick="goto('hero');toggleMenu()">Accueil</button>
+  <button class="mobile-btn" onclick="goto('roles');toggleMenu()">Rôles utilisateurs</button>
+  <button class="mobile-btn" onclick="goto('modules');toggleMenu()">Modules fonctionnels</button>
+  <button class="mobile-btn" onclick="goto('flux');toggleMenu()">Flux métier</button>
+  <button class="mobile-btn" onclick="goto('securite');toggleMenu()">Sécurité</button>
+  <button class="mobile-btn" onclick="goto('stack');toggleMenu()">Stack technique</button>
+  <button class="mobile-btn" onclick="goto('futur');toggleMenu()">Évolutions futures</button>
+</div>
+
+<div id="hero" class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge"><div class="dot"></div>Plateforme de recrutement technique</div>
+  <h1>Recrutez plus vite.<br>Évaluez plus <em>intelligemment.</em></h1>
+  <p>Sof Smart Hire couvre l'intégralité du cycle de recrutement — de l'analyse IA des CV à l'évaluation des quiz techniques — pour RH, Managers et Candidats.</p>
+  <div class="hero-btns">
+    <button class="btn-p" onclick="goto('flux')">Voir le flux métier</button>
+    <button class="btn-o" onclick="goto('modules')">Explorer les modules</button>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-n">4</div><div class="stat-l">Rôles utilisateurs</div></div>
+  <div class="stat"><div class="stat-n">9</div><div class="stat-l">Modules</div></div>
+  <div class="stat"><div class="stat-n">IA</div><div class="stat-l">Analyse CV & Quiz</div></div>
+  <div class="stat"><div class="stat-n">2FA</div><div class="stat-l">Sécurité avancée</div></div>
+  <div class="stat"><div class="stat-n">MySQL</div><div class="stat-l">Base de données</div></div>
+</div>
+
+<section id="roles" class="anim">
+  <div class="sec-label">Utilisateurs</div>
+  <div class="sec-h">Quatre rôles, <span>une plateforme</span></div>
+  <div class="sec-p">Chaque acteur dispose d'un espace dédié avec accès et fonctionnalités adaptés à ses responsabilités. Cliquez sur une carte pour voir les détails.</div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-icon">👑</div>
+      <div class="card-t">RH Admin</div>
+      <div class="card-d">Rôle le plus privilégié. Accès complet à toute la plateforme : utilisateurs, départements, offres, candidats, quiz et résultats.</div>
+      <div class="tags"><span class="tag">Gestion utilisateurs</span><span class="tag">Départements</span><span class="tag">Offres</span><span class="tag">2FA</span></div>
+      <button class="expand-btn" onclick="toggle(this)">Voir les fonctionnalités →</button>
+      <div class="expand-content">
+        <ul class="detail-list">
+          <li>Création et gestion de tous les utilisateurs</li>
+          <li>Attribution de rôles multiples par compte</li>
+          <li>Import en masse via CSV + export Excel</li>
+          <li>Création / modification / suppression des départements</li>
+          <li>Affectation d'un responsable par département</li>
+          <li>Consultation des statistiques départementales</li>
+          <li>Accès aux résultats et réponses détaillées de tous les quiz</li>
+          <li>Activation et désactivation de la 2FA</li>
+          <li>Accès au dashboard RH Admin avec KPIs globaux</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon org">👤</div>
+      <div class="card-t">RH</div>
+      <div class="card-d">Gère le recrutement au quotidien. Upload de CV, analyse IA, suivi des candidats, envoi d'invitations quiz et consultation des résultats.</div>
+      <div class="tags"><span class="tag">Upload CV</span><span class="tag">Analyse IA</span><span class="tag">Invitations</span><span class="tag">Résultats</span></div>
+      <button class="expand-btn" onclick="toggle(this)">Voir les fonctionnalités →</button>
+      <div class="expand-content">
+        <ul class="detail-list">
+          <li>Upload de CV et association à une offre d'emploi</li>
+          <li>Déclenchement de l'analyse IA via FastAPI</li>
+          <li>Consultation de l'extraction détaillée du CV</li>
+          <li>Liste et filtrage des candidats (recherche, tri, statut)</li>
+          <li>Consultation du profil complet d'un candidat</li>
+          <li>Envoi d'invitations quiz par lien tokenisé</li>
+          <li>Consultation des résultats et réponses détaillées</li>
+          <li>Téléchargement et suppression des CV</li>
+          <li>Accès au dashboard RH avec ses candidats actifs</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🧩</div>
+      <div class="card-t">Manager</div>
+      <div class="card-d">Suit les recrutements liés uniquement à ses offres. Crée des offres, génère des quiz techniques et consulte ses candidats exclusivement.</div>
+      <div class="tags"><span class="tag">Créer offres</span><span class="tag">Générer quiz</span><span class="tag">Mes candidats</span></div>
+      <button class="expand-btn" onclick="toggle(this)">Voir les fonctionnalités →</button>
+      <div class="expand-content">
+        <ul class="detail-list">
+          <li>Création et édition de ses propres offres d'emploi</li>
+          <li>Définition des technologies, séniorité et responsabilités</li>
+          <li>Génération de quiz IA à partir d'une offre</li>
+          <li>Consultation de la liste de ses quiz générés</li>
+          <li>Accès uniquement aux candidats liés à ses offres</li>
+          <li>Consultation de l'analyse CV et de l'extraction IA</li>
+          <li>Consultation des résultats quiz et réponses détaillées</li>
+          <li>Dashboard Manager avec vue sur ses recrutements</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon org">🎯</div>
+      <div class="card-t">Candidat</div>
+      <div class="card-d">Accès public uniquement via lien sécurisé tokenisé. Passe le quiz en ligne avec surveillance anti-triche intégrée en temps réel.</div>
+      <div class="tags"><span class="tag">Lien tokenisé</span><span class="tag">Quiz en ligne</span><span class="tag">Anti-triche</span></div>
+      <button class="expand-btn" onclick="toggle(this)">Voir les fonctionnalités →</button>
+      <div class="expand-content">
+        <ul class="detail-list">
+          <li>Accès public sans compte via token unique</li>
+          <li>Vérification du token avant démarrage (expiré, utilisé, invalide)</li>
+          <li>Passage des questions MCQ, code et ouvertes</li>
+          <li>Sauvegarde progressive des réponses</li>
+          <li>Surveillance anti-triche en temps réel (tab switch, copier-coller)</li>
+          <li>Auto-soumission automatique en fin de temps imparti</li>
+          <li>Évaluation immédiate à la soumission</li>
+          <li>Onboarding guidé au démarrage du quiz</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="modules" class="anim">
+  <div class="sec-label">Fonctionnalités</div>
+  <div class="sec-h">Modules <span>fonctionnels</span></div>
+  <div class="sec-p">Neuf modules interconnectés couvrent l'intégralité du cycle de recrutement. Cliquez sur chaque module pour explorer les détails.</div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-icon">🏢</div>
+      <div class="card-t">Administration RH</div>
+      <div class="card-d">Gestion centralisée des utilisateurs, rôles et départements avec outils d'import/export.</div>
+      <button class="expand-btn" onclick="toggle(this)">Détails →</button>
+      <div class="expand-content">
+        <ul class="detail-list">
+          <li>Création, modification, désactivation des comptes</li>
+          <li>Recherche par nom ou email + filtres rôle/statut</li>
+          <li>Import en masse CSV avec validation email entreprise</li>
+          <li>Export CSV et Excel de la liste utilisateurs</li>
+          <li>Pagination avancée des listes</li>
+          <li>Gestion des départements avec responsables</li>
+          <li>Statistiques par département (offres, candidats)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon org">📋</div>
+      <div class="card-t">Offres d'emploi</div>
+      <div class="card-d">Cycle de vie complet des offres : création, édition, publication, fermeture et statistiques.</div>
+      <button class="expand-btn" onclick="toggle(this)">Détails →</button>
+      <div class="expand-content">
+        <ul class="detail-list">
+          <li>Titre, localisation, type de contrat, salaire</li>
+          <li>Technologies requises et niveau de séniorité</li>
+          <li>Responsabilités, requirements, benefits</li>
+          <li>Association à un département</li>
+          <li>Publication et fermeture côté backend</li>
+          <li>Statistiques de performance par offre</li>
+          <li>Historique des modifications</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📄</div>
+      <div class="card-t">CV & Candidats</div>
+      <div class="card-d">Collecte et exploitation complète des candidatures avec profils détaillés.</div>
+      <button class="expand-btn" onclick="toggle(this)">Détails →</button>
+      <div class="expand-content">
+        <ul class="detail-list">
+          <li>Upload CV et association à une offre d'emploi</li>
+          <li>Saisie des informations du candidat</li>
+          <li>Profil candidat complet côté RH</li>
+          <li>Recherche, tri et filtrage multi-critères</li>
+          <li>Téléchargement direct du CV original</li>
+          <li>Suppression sécurisée des CVs</li>
+          <li>Historique de recrutement par candidat</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon org">🤖</div>
+      <div class="card-t">Analyse IA des CV</div>
+      <div class="card-d">Microservice FastAPI qui enrichit chaque CV avec extraction automatique et scoring.</div>
+      <button class="expand-btn" onclick="toggle(this)">Détails →</button>
+      <div class="expand-content">
+        <ul class="detail-list">
+          <li>Extraction des compétences techniques</li>
+          <li>Extraction des expériences professionnelles</li>
+          <li>Extraction des formations et certifications</li>
+          <li>Détection des langues maîtrisées</li>
+          <li>Estimation du niveau (junior/mid/senior)</li>
+          <li>Calcul d'un score de matching avec l'offre</li>
+          <li>Score de confiance IA sur l'analyse</li>
+          <li>Génération d'un résumé synthétique</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📝</div>
+      <div class="card-t">Quiz techniques</div>
+      <div class="card-d">Génération IA, passage sécurisé par lien tokenisé et correction enrichie des quiz.</div>
+      <button class="expand-btn" onclick="toggle(this)">Détails →</button>
+      <div class="expand-content">
+        <ul class="detail-list">
+          <li>Génération IA automatique à partir d'une offre</li>
+          <li>Questions MCQ, QCU, ouvertes et code</li>
+          <li>Association quiz ↔ offre d'emploi</li>
+          <li>Invitation candidat par lien tokenisé unique</li>
+          <li>Timeout par section + auto-soumission</li>
+          <li>Correction IA des questions ouvertes et code</li>
+          <li>Note /10 avec détection contenu généré par IA</li>
+          <li>Liste et gestion des quiz par manager</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon org">📊</div>
+      <div class="card-t">Résultats & Évaluation</div>
+      <div class="card-d">Analyse complète des performances avec rapport IA, forces, faiblesses et recommandations.</div>
+      <button class="expand-btn" onclick="toggle(this)">Détails →</button>
+      <div class="expand-content">
+        <ul class="detail-list">
+          <li>Score global du quiz par candidat</li>
+          <li>Résultats détaillés par section technologique</li>
+          <li>Nombre de bonnes réponses et durée</li>
+          <li>Analyse IA : forces, faiblesses, recommandations</li>
+          <li>Orientation du profil suggérée par l'IA</li>
+          <li>Navigation question par question</li>
+          <li>Affichage code candidat + statut correct/incorrect</li>
+          <li>Métriques anti-triche enregistrées avec résultats</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="flux" class="anim">
+  <div class="sec-label">Parcours</div>
+  <div class="sec-h">Flux métier <span>global</span></div>
+  <div class="sec-p">Le parcours complet d'un recrutement de bout en bout. Cliquez sur chaque étape pour voir le détail des actions.</div>
+  <div class="flux-timeline">
+    <div class="flux-item" onclick="toggleFlux(this)">
+      <div class="flux-num">01</div>
+      <div class="flux-body">
+        <div class="flux-badge">RH Admin</div>
+        <div class="flux-t">Administration & configuration</div>
+        <div class="flux-d">Mise en place de l'organisation, des utilisateurs et des structures de recrutement.</div>
+        <div class="flux-detail"><div class="flux-detail-inner"><p>Le RH Admin crée les comptes utilisateurs (RH, Managers), attribue les rôles appropriés, configure les départements avec leurs responsables. Il valide les emails de type entreprise et peut importer des utilisateurs en masse via CSV. Il dispose d'une vue globale sur toute la plateforme et gère les accès 2FA par compte.</p></div></div>
+      </div>
+    </div>
+    <div class="flux-item" onclick="toggleFlux(this)">
+      <div class="flux-num">02</div>
+      <div class="flux-body">
+        <div class="flux-badge">RH / Manager</div>
+        <div class="flux-t">Création de l'offre d'emploi</div>
+        <div class="flux-d">Définition du poste avec toutes les informations nécessaires au recrutement.</div>
+        <div class="flux-detail"><div class="flux-detail-inner"><p>Le RH ou Manager crée une offre en renseignant : titre, département, localisation, type de contrat, fourchette de salaire, technologies requises, niveau de séniorité, responsabilités, requirements et benefits. L'offre est ensuite publiée et associée à un département. Des statistiques de performance sont générées automatiquement.</p></div></div>
+      </div>
+    </div>
+    <div class="flux-item" onclick="toggleFlux(this)">
+      <div class="flux-num">03</div>
+      <div class="flux-body">
+        <div class="flux-badge">RH</div>
+        <div class="flux-t">Upload & analyse IA du CV</div>
+        <div class="flux-d">Collecte du CV et enrichissement automatique via le microservice IA FastAPI.</div>
+        <div class="flux-detail"><div class="flux-detail-inner"><p>Le RH uploade le CV et l'associe à l'offre correspondante. Le microservice FastAPI est appelé automatiquement : il extrait compétences, expériences, formations, certifications et langues. Il estime le niveau du candidat, calcule un score de matching avec l'offre et génère un résumé avec un score de confiance IA. Les données sont stockées en MySQL.</p></div></div>
+      </div>
+    </div>
+    <div class="flux-item" onclick="toggleFlux(this)">
+      <div class="flux-num">04</div>
+      <div class="flux-body">
+        <div class="flux-badge">Manager</div>
+        <div class="flux-t">Génération du quiz technique</div>
+        <div class="flux-d">Création automatique d'un quiz IA adapté aux technologies de l'offre.</div>
+        <div class="flux-detail"><div class="flux-detail-inner"><p>Le Manager sélectionne une offre et génère un quiz via l'IA. Le microservice crée des questions MCQ, QCU, ouvertes et de code adaptées aux technologies requises par l'offre. Le quiz est structuré par sections technologiques avec un timeout configurable par section. Le Manager peut consulter et modifier le quiz avant envoi.</p></div></div>
+      </div>
+    </div>
+    <div class="flux-item" onclick="toggleFlux(this)">
+      <div class="flux-num">05</div>
+      <div class="flux-body">
+        <div class="flux-badge">RH → Candidat</div>
+        <div class="flux-t">Invitation et passage du quiz</div>
+        <div class="flux-d">Envoi d'un lien sécurisé et passage du quiz avec surveillance anti-triche en temps réel.</div>
+        <div class="flux-detail"><div class="flux-detail-inner"><p>Le RH envoie une invitation au candidat avec un lien tokenisé unique. Le candidat accède au quiz sans compte : le token est vérifié (expiré, utilisé, invalide). Pendant le quiz, le système surveille en temps réel : changements d'onglet, copier-coller, DevTools, clic droit. En cas d'abus répété, le quiz est bloqué automatiquement. À la fin du temps, auto-soumission.</p></div></div>
+      </div>
+    </div>
+    <div class="flux-item" onclick="toggleFlux(this)">
+      <div class="flux-num">06</div>
+      <div class="flux-body">
+        <div class="flux-badge">Système IA</div>
+        <div class="flux-t">Évaluation automatique & analyse IA</div>
+        <div class="flux-d">Correction des réponses, évaluation IA des questions complexes et génération du rapport.</div>
+        <div class="flux-detail"><div class="flux-detail-inner"><p>Le système évalue automatiquement les MCQ/QCU. Pour les questions ouvertes et de code, le microservice IA note sur 10, détecte le pourcentage de contenu généré par IA, liste les erreurs et manques, et génère une explication détaillée. Les métriques anti-triche (tab switch count, copy attempts, DevTools) sont enregistrées avec les résultats en MySQL.</p></div></div>
+      </div>
+    </div>
+    <div class="flux-item" onclick="toggleFlux(this)">
+      <div class="flux-num">07</div>
+      <div class="flux-body">
+        <div class="flux-badge">RH / Manager</div>
+        <div class="flux-t">Consultation des résultats</div>
+        <div class="flux-d">Analyse complète des performances du candidat pour prendre la décision de recrutement.</div>
+        <div class="flux-detail"><div class="flux-detail-inner"><p>Le RH ou Manager accède au score global, aux résultats par section technologique, à l'analyse IA (forces, faiblesses, recommandations, orientation du profil). Il peut naviguer question par question, voir les réponses code du candidat, les statuts correct/incorrect et les métriques de fraude. L'ensemble permet une prise de décision éclairée et documentée.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="securite" class="anim">
+  <div class="sec-label">Sécurité</div>
+  <div class="sec-h">Sécurité <span>multicouche</span></div>
+  <div class="sec-p">Un système complet de protection des accès et de surveillance des quiz pour garantir l'intégrité totale du recrutement.</div>
+  <div class="sec-grid">
+    <div class="sec-card">
+      <div class="sec-icon">🔐</div>
+      <div class="sec-t">JWT + Guards Angular</div>
+      <div class="sec-d">Tokens JWT pour les utilisateurs internes. Guards Angular par rôle avec restauration de session depuis le stockage local. Intercepteur d'erreurs automatique.</div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-icon">🛡️</div>
+      <div class="sec-t">Authentification 2FA</div>
+      <div class="sec-d">Double facteur configurable par compte avec vérification OTP. Activation / désactivation depuis les paramètres. Choix de la méthode 2FA.</div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-icon">👁️</div>
+      <div class="sec-t">Anti-triche quiz</div>
+      <div class="sec-d">Détection des changements d'onglet, blocage du copier-coller, détection des DevTools ouverts, blocage du clic droit pendant le quiz.</div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-icon">📊</div>
+      <div class="sec-t">Métriques de fraude</div>
+      <div class="sec-d">Enregistrement en MySQL : tab switch count, copy/paste attempts, DevTools attempts, right click attempts, état blocked, sections expirées.</div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-icon">⏱️</div>
+      <div class="sec-t">Timeout & Auto-submit</div>
+      <div class="sec-d">Timeout configurable par section avec soumission automatique à la fin du temps. Blocage définitif du quiz en cas d'abus répété détecté.</div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-icon">🔑</div>
+      <div class="sec-t">Tokens sécurisés</div>
+      <div class="sec-d">Liens quiz à usage unique tokenisés. Vérification côté backend : token expiré, déjà utilisé, ou invalide. Aucun accès sans token valide.</div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-icon">🔄</div>
+      <div class="sec-t">Reset password</div>
+      <div class="sec-d">Flux de réinitialisation sécurisé depuis l'écran de login. Lien temporaire par email avec expiration automatique.</div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-icon">🚫</div>
+      <div class="sec-t">Accès non autorisé</div>
+      <div class="sec-d">Écran dédié aux tentatives d'accès non autorisées. Guards empêchant l'accès aux routes selon le rôle du compte connecté.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="stack" class="anim">
+  <div class="sec-label">Architecture technique</div>
+  <div class="sec-h">Stack <span>technologique</span></div>
+  <div class="sec-p">Une architecture trois couches moderne : frontend Angular, backend Spring Boot sécurisé et microservice IA FastAPI — tous connectés à MySQL.</div>
+  <div class="stack-row">
+    <div class="stack-card">
+      <div class="stack-name" style="color:#DD0031">Angular</div>
+      <div class="stack-role">Frontend SPA</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-name" style="color:#6DB33F">Spring Boot</div>
+      <div class="stack-role">Backend & Sécurité</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-name" style="color:#009688">FastAPI</div>
+      <div class="stack-role">Microservice IA</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-name mysql">MySQL</div>
+      <div class="stack-role">Base de données</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-name" style="color:#a78bfa">JWT</div>
+      <div class="stack-role">Authentification</div>
+    </div>
+  </div>
+  <div style="margin-top:2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem">
+    <div class="card">
+      <div class="card-t" style="margin-bottom:0.8rem">Frontend — Angular</div>
+      <ul class="detail-list" style="margin-top:0;border-top:none;padding-top:0">
+        <li>Guards par rôle et par authentification</li>
+        <li>Intercepteur JWT et erreurs globales</li>
+        <li>Onboarding guidé par rôle (tour)</li>
+        <li>Notifications succès / erreur / warning</li>
+        <li>Loader global et dialogs de confirmation</li>
+        <li>Restoration de session (localStorage)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-t" style="margin-bottom:0.8rem">Backend — Spring Boot</div>
+      <ul class="detail-list" style="margin-top:0;border-top:none;padding-top:0">
+        <li>API REST sécurisée avec JWT</li>
+        <li>Logique métier et validation</li>
+        <li>Gestion des rôles et permissions</li>
+        <li>Connexion MySQL via JPA/Hibernate</li>
+        <li>Communication avec le microservice IA</li>
+        <li>Publication / fermeture des offres</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-t" style="margin-bottom:0.8rem">Microservice — FastAPI</div>
+      <ul class="detail-list" style="margin-top:0;border-top:none;padding-top:0">
+        <li>Analyse et extraction des CVs (PDF)</li>
+        <li>Génération de quiz par offre</li>
+        <li>Correction IA questions ouvertes & code</li>
+        <li>Détection contenu généré par IA</li>
+        <li>Score de matching CV ↔ offre</li>
+        <li>API indépendante et scalable</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="futur" class="anim">
+  <div class="sec-label">Roadmap</div>
+  <div class="sec-h">Évolutions <span>futures</span></div>
+  <div class="sec-p">Les fonctionnalités planifiées pour transformer Sof Smart Hire en plateforme de recrutement décisionnelle, prédictive et commercialisable.</div>
+  <div class="future-grid">
+    <div class="f-card"><div class="f-lbl">Analytics</div><div class="f-t">Dashboard KPI avancé</div><div class="f-d">Taux de réussite par techno, temps moyen de quiz, taux de fraude, conversion CV → sélection. Graphiques interactifs avec filtres dynamiques.</div></div>
+    <div class="f-card"><div class="f-lbl">Scoring</div><div class="f-t">Score global candidat</div><div class="f-d">Unification score CV + quiz + anti-triche + confiance IA. Pondération configurable, classement automatique et ranking par offre.</div></div>
+    <div class="f-card"><div class="f-lbl">Intelligence artificielle</div><div class="f-t">Module prédictif IA</div><div class="f-d">Prédiction de réussite, probabilité d'embauche, identification des candidats à fort potentiel sur base des données historiques MySQL.</div></div>
+    <div class="f-card"><div class="f-lbl">DevOps</div><div class="f-t">Industrialisation</div><div class="f-d">Dockerisation des services, pipelines CI/CD, monitoring des performances, centralisation des logs et déploiement cloud scalable.</div></div>
+    <div class="f-card"><div class="f-lbl">UX Candidat</div><div class="f-t">Feedback personnalisé</div><div class="f-d">Rapport de résultats post-quiz pour le candidat, suggestions d'amélioration et recommandations de compétences à renforcer.</div></div>
+    <div class="f-card"><div class="f-lbl">Fraude avancée</div><div class="f-t">Analyse comportementale</div><div class="f-d">Patterns suspects, analyse du temps de réponse par question, comparaison entre candidats et score de crédibilité global.</div></div>
+    <div class="f-card"><div class="f-lbl">Interconnexion</div><div class="f-t">Modules dynamiques</div><div class="f-d">Lien CV → génération quiz adaptatif, adaptation du niveau selon le candidat, synchronisation IA ↔ résultats quiz en temps réel.</div></div>
+    <div class="f-card"><div class="f-lbl">Business</div><div class="f-t">Modèle SaaS</div><div class="f-d">Multi-entreprises avec isolation des données MySQL par organisation, gestion des abonnements et personnalisation de la plateforme.</div></div>
+  </div>
+</section>
+
+<div class="cta-box anim">
+  <h2>Une plateforme complète,<br>de bout en <b style="color:#F3701C">bout</b></h2>
+  <p>Sof Smart Hire relie l'intégralité du cycle de recrutement technique — administration, analyse IA, quiz sécurisés, évaluation détaillée — en un seul système cohérent.</p>
+  <div class="hero-btns">
+    <button class="btn-p" onclick="goto('flux')">Revoir le flux métier</button>
+    <button class="btn-o" onclick="goto('roles')">Voir les rôles</button>
+  </div>
+</div>
+
+<footer>
+  <b>Sof Smart Hire</b> — Angular · Spring Boot · FastAPI · MySQL · JWT · 2FA<br>
+  <span style="opacity:0.5">Plateforme de recrutement technique multi-rôles avec analyse IA et quiz sécurisés</span>
+</footer>
+
+<script>
+function goto(id){
+  const el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const active=document.querySelector(`.nav-btn[onclick*="${id}"]`);
+  if(active)active.classList.add('active');
+}
+function toggleMenu(){
+  const m=document.getElementById('mmenu');
+  m.classList.toggle('open');
+}
+function toggle(btn){
+  const content=btn.nextElementSibling;
+  const isOpen=content.classList.contains('open');
+  content.classList.toggle('open');
+  btn.textContent=isOpen?'Voir les fonctionnalités →':'Réduire ↑';
+  if(btn.textContent==='Réduire ↑'&&!btn.textContent.includes('Détails'))btn.textContent='Réduire ↑';
+}
+function toggleFlux(item){
+  const detail=item.querySelector('.flux-detail');
+  detail.classList.toggle('open');
+  const num=item.querySelector('.flux-num');
+  num.style.color=detail.classList.contains('open')?'rgba(243,112,28,0.5)':'rgba(34,82,125,0.22)';
+}
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
+},{threshold:0.08});
+document.querySelectorAll('.anim').forEach(el=>obs.observe(el));
+
+window.addEventListener('scroll',()=>{
+  const sections=['hero','roles','modules','flux','securite','stack','futur'];
+  const btns=document.querySelectorAll('.nav-btn');
+  let current='hero';
+  sections.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&el.getBoundingClientRect().top<120)current=id;
+  });
+  btns.forEach(b=>{
+    b.classList.remove('active');
+    if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes(current))b.classList.add('active');
+  });
+});
+</script>
